@@ -11,7 +11,7 @@ For **Multiple Store Views**, please see a [separate article](https://help.dat
 
 ![](https://files.helpdocs.io/g56vkvlw7l/other/1572519920016/magento-add-shop-2.png)
 
-1.  At the bottom of the page, click **Create shop**
+5.  At the bottom of the page, click **Create shop**
 
 #### Magento 2 Plugin
 
