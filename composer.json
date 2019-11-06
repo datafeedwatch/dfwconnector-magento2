@@ -1,9 +1,6 @@
 {
     "name": "datafeedwatch/connector",
-    "description": "N/A",
-    "require": {
-        "php": "7.*"
-    },
+    "description": "Datafeed Watch Connector",
     "type": "magento2-module",
     "version": "1.0.0",
     "license": [
