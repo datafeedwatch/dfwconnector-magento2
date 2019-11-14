@@ -12,7 +12,5 @@
 <integrations>
     <integration name="dfwIntegration">
         <email>magento@datafeedwatch.com</email>
-        <endpoint_url>https://my.datafeedwatch.com/</endpoint_url>
-        <identity_link_url>https://my.datafeedwatch.com/platforms/magento/sessions/finalize</identity_link_url>
     </integration>
 </integrations>

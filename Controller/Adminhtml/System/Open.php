@@ -27,17 +27,7 @@ class Open extends Button
     public function execute()
     {
         try {
-            $apiUser = $this->apiUser;
-
-            if (!$apiUser->loadDfwUser()->isEmpty()) {
-                $apiUrl = ($this->dataHelper->getConfig(DATA::TEST_API_STATUS_XML_PATH)) ?
-                    $this->dataHelper->getConfig(DATA::TEST_API_URL_XML_PATH) : Data::MY_DATA_FEED_WATCH_URL;
-
-                return $this->getResponse()->setRedirect($apiUrl);
-            }
-
-            $apiUser->createDfwUser();
-            return $this->getResponse()->setRedirect($apiUser->getRegisterUrl());
+            return $this->getResponse()->setRedirect($this->dataHelper->getRegisterUrl());
         } catch (Exception $e) {
             $this->getMessageManager()->addErrorMessage($e->getMessage());
 

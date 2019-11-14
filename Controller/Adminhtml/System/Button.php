@@ -11,7 +11,7 @@
 namespace DataFeedWatch\Connector\Controller\Adminhtml\System;
 
 use DataFeedWatch\Connector\Helper\Data;
-use DataFeedWatch\Connector\Model\Api\User;
+use Magento\Framework\HTTP\Client\Curl;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 
@@ -27,11 +27,10 @@ abstract class Button extends Action
      * @var Data
      */
     public $dataHelper;
-
     /**
-     * @var User
+     * @var Curl
      */
-    public $apiUser;
+    protected $curl;
 
     /**
      * Button constructor.
@@ -42,10 +41,10 @@ abstract class Button extends Action
     public function __construct(
         Context $context,
         Data $dataHelper,
-        User $apiUser
+        Curl $curl
     ) {
         $this->dataHelper     = $dataHelper;
-        $this->apiUser        = $apiUser;
+        $this->curl           = $curl;
         parent::__construct($context);
     }
 }

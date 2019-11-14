@@ -10,7 +10,6 @@
 
 namespace DataFeedWatch\Connector\Controller\Adminhtml\System;
 
-use DataFeedWatch\Connector\Model\Api\User as ApiUser;
 use Exception;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
@@ -27,11 +26,13 @@ class Refresh extends Button
     public function execute()
     {
         try {
-            $apiUser = $this->apiUser;
-            $apiUser->loadDfwUser();
-            $apiUser->createDfwUser();
+            $this->curl->setOption(CURLOPT_HTTPGET, true);
+            $this->curl->setOption(CURLOPT_RETURNTRANSFER, true);
+            $this->curl->setOption(CURLOPT_FOLLOWLOCATION, true);
+            $this->curl->setOption(CURLOPT_HEADER, true);
+            $this->curl->get($this->dataHelper->getRegisterUrl());
 
-            $this->getMessageManager()->addSuccessMessage(__('%1 user has been refreshed', ApiUser::USER_NAME));
+            $this->getMessageManager()->addSuccessMessage(__('DataFeedWatch integration access has been refreshed'));
 
             return $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
         } catch (Exception $e) {
