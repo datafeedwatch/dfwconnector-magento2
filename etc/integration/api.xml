@@ -15,6 +15,7 @@
             <resource name="Magento_Catalog::catalog" />
             <resource name="Magento_Catalog::config_catalog" />
             <resource name="Magento_Backend::stores_attributes" />
+            <resource name="Magento_Backend::store" />
             <resource name="Magento_Catalog::attributes_attributes" />
             <resource name="Magento_Catalog::update_attributes" />
             <resource name="Magento_Catalog::sets" />
@@ -24,6 +25,7 @@
             <resource name="Magento_CatalogInventory::cataloginventory" />
             <resource name="Magento_CatalogRule::promo_catalog" />
             <resource name="Magento_Sales::sales" />
+            <resource name="DataFeedWatch_Connector::config" />
         </resources>
     </integration>
 </integrations>
