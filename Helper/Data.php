@@ -25,8 +25,6 @@ class Data extends AbstractHelper
 {
     const MY_DATA_FEED_WATCH_URL = 'https://app.datafeedwatch.com/';
     const VERSION_PARAMETER_XML_PATH = "dfw_connector/general/version";
-    const TEST_API_STATUS_XML_PATH = 'dfw_connector/general/test_mode';
-    const TEST_API_URL_XML_PATH = 'dfw_connector/general/test_api_url';
 
     /**
      * @var IntegrationService
@@ -101,14 +99,7 @@ class Data extends AbstractHelper
      */
     public function getRegisterUrl()
     {
-        $registerUrl = sprintf(
-            '%splatforms/magento/sessions/finalize',
-            (
-                $this->getConfig(self::TEST_API_STATUS_XML_PATH)
-                ? $this->getConfig(self::TEST_API_URL_XML_PATH)
-                : self::MY_DATA_FEED_WATCH_URL
-            )
-        );
+        $registerUrl = sprintf('%splatforms/magento/sessions/finalize', self::MY_DATA_FEED_WATCH_URL);
 
         return $registerUrl . '?shop=' . $this->storeManager->getStore()->getBaseUrl() . '&token='
             . $this->getAccessToken() . '&version=' . $this->getConfig(Data::VERSION_PARAMETER_XML_PATH);

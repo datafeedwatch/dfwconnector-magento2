@@ -3,7 +3,7 @@
  * Created by Q-Solutions Studio
  * Date: 01.07.19
  *
- * @category    Dfw
+ * @category    DataFeedWatch
  * @package     DataFeedWatch_Connector
  * @author      Maciej Buchert <maciej@qsolutionsstudio.com>
  */
