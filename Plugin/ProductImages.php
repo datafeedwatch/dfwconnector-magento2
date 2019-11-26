@@ -18,6 +18,7 @@ use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\Api\SearchResults;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Data\Collection;
 
 class ProductImages
 {
@@ -105,8 +106,10 @@ class ProductImages
         $images = $product->getMediaGalleryImages();
         $imagesData = [];
 
-        foreach ($images as $image) {
-            $imagesData[] = $image->getData('url');
+        if ($images instanceof Collection) {
+            foreach ($images as $image) {
+                $imagesData[] = $image->getData('url');
+            }
         }
 
         return $imagesData;
