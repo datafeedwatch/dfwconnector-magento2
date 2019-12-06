@@ -88,12 +88,11 @@ class ProductImages
      */
     protected function setExtensionAttribute(Product $product)
     {
-        if ($product->getTypeId() == Type::TYPE_SIMPLE) {
-            $extensionAttributes = $product->getExtensionAttributes();
-            $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
-            $extensionAttributes->setProductImages($this->getProductImages($product));
-            $product->setExtensionAttributes($extensionAttributes);
-        }
+        $extensionAttributes = $product->getExtensionAttributes();
+        $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
+        $extensionAttributes->setProductImages($this->getProductImages($product));
+        $product->setExtensionAttributes($extensionAttributes);
+
         return $product;
     }
 

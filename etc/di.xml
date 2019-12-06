@@ -17,4 +17,7 @@
         <plugin name="DataFeedWatch_Connector::product_url_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\ProductUrl"/>
         <plugin name="DataFeedWatch_Connector::product_images_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\ProductImages"/>
     </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+        <plugin name="DataFeedWatch_Connector::store_id_filter_fix" type="DataFeedWatch\Connector\Plugin\StoreIdFilter"/>
+    </type>
 </config>
