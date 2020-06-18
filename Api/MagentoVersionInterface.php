@@ -17,7 +17,7 @@ interface MagentoVersionInterface
 {
     /**
      * @method getVersionData
-     * @return array
+     * @return mixed[]
      */
     public function getVersionData();
 }
