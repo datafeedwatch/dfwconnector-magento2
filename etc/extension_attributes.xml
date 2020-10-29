@@ -11,10 +11,10 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
     <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
-        <attribute code="parent_ids" type="array" />
+        <attribute code="parent_ids" type="mixed[]" />
         <attribute code="quantity" type="float" />
         <attribute code="product_url" type="string" />
-        <attribute code="additional_urls" type="array" />
-        <attribute code="product_images" type="array" />
+        <attribute code="additional_urls" type="mixed[]" />
+        <attribute code="product_images" type="mixed[]" />
     </extension_attributes>
 </config>
