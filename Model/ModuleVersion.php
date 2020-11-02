@@ -11,7 +11,7 @@
 namespace DataFeedWatch\Connector\Model;
 
 use DataFeedWatch\Connector\Api\ModuleVersionInterface;
-use Magento\Framework\Module\ResourceInterface;
+use DataFeedWatch\Connector\Model\ModuleResource as ResourceInterface;
 
 class ModuleVersion implements ModuleVersionInterface
 {
@@ -24,7 +24,7 @@ class ModuleVersion implements ModuleVersionInterface
 
     /**
      * @method __construct
-     * @param  ProductMetadataInterface $productMetadata
+     * @param ResourceInterface $moduleResource
      */
     public function __construct(ResourceInterface $moduleResource)
     {
@@ -40,6 +40,7 @@ class ModuleVersion implements ModuleVersionInterface
         $versionData = [];
         $versionData['name'] = self::MODULE;
         $versionData['version'] = $this->moduleResource->getDbVersion(self::MODULE);
+        $versionData['composer_version'] = $this->moduleResource->getComposerVersion();
 
         return [$versionData];
     }
