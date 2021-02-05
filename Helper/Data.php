@@ -12,6 +12,8 @@ namespace DataFeedWatch\Connector\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\IntegrationException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Integration\Model\Integration;
 use Magento\Integration\Model\IntegrationService;
 use Magento\Integration\Api\OauthServiceInterface as OauthService;
@@ -72,8 +74,9 @@ class Data extends AbstractHelper
     /**
      * @method getAccessToken
      * @return string
+     * @throws IntegrationException
      */
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         $integration = $this->integrationService->findByName('dfwIntegration');
 
@@ -96,8 +99,10 @@ class Data extends AbstractHelper
     /**
      * @method getRegisterUrl
      * @return string
+     * @throws IntegrationException
+     * @throws NoSuchEntityException
      */
-    public function getRegisterUrl()
+    public function getRegisterUrl(): string
     {
         $registerUrl = sprintf('%splatforms/magento/sessions/finalize', self::MY_DATA_FEED_WATCH_URL);
 

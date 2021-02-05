@@ -19,15 +19,15 @@ class Open extends BaseButton
     /**
      * @return string
      */
-    public function getButtonLabel()
+    public function getButtonLabel(): string
     {
-        return __('Open');
+        return (string)__('Open');
     }
 
     /**
      * @return string
      */
-    public function getButtonOnClick()
+    public function getButtonOnClick(): string
     {
         return sprintf("window.open('%s')", $this->getUrl('dfw/system/open'));
     }

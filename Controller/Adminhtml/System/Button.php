@@ -36,7 +36,7 @@ abstract class Button extends Action
      * Button constructor.
      * @param Context $context
      * @param Data $dataHelper
-     * @param User $apiUser
+     * @param Curl $curl
      */
     public function __construct(
         Context $context,

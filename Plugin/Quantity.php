@@ -16,6 +16,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type;
 use Magento\Framework\Api\SearchResults;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Module\Manager;
 
 class Quantity
 {
@@ -31,18 +32,25 @@ class Quantity
      * @var ResourceConnection
      */
     protected $resourceConnection;
+    /**
+     * @var Manager
+     */
+    protected $moduleManager;
 
     /**
      * ParentIds constructor.
      * @param ProductExtensionFactory $extensionFactory
      * @param ResourceConnection $resourceConnection
+     * @param Manager $moduleManager
      */
     public function __construct(
         ProductExtensionFactory $extensionFactory,
-        ResourceConnection $resourceConnection
+        ResourceConnection $resourceConnection,
+        Manager $moduleManager
     ) {
         $this->extensionFactory = $extensionFactory;
         $this->resourceConnection = $resourceConnection;
+        $this->moduleManager = $moduleManager;
     }
 
     /**
@@ -81,19 +89,18 @@ class Quantity
      */
     protected function setExtensionAttribute(Product $product)
     {
-        if($product->getTypeId() == Type::TYPE_SIMPLE) {
-            $extensionAttributes = $product->getExtensionAttributes();
-            $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
-            $extensionAttributes->setQuantity(
-                $this->getQuantity($product)
-            );
-            $product->setExtensionAttributes($extensionAttributes);
-        }
+        $extensionAttributes = $product->getExtensionAttributes();
+        $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
+        $extensionAttributes->setQuantity(
+            $this->getQuantity($product)
+        );
+        $product->setExtensionAttributes($extensionAttributes);
+
         return $product;
     }
 
     /**
-     * @param Product $productSku
+     * @param Product $product
      * @return float
      */
     protected function getQuantity(Product $product)
@@ -101,7 +108,7 @@ class Quantity
         $connection = $this->resourceConnection->getConnection();
         $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
 
-        if ($connection->isTableExists($tableName)) {
+        if ($this->moduleManager->isEnabled('Magento_Inventory')) {
             $query = sprintf("SELECT SUM(`quantity`) FROM `%s` WHERE `sku` = '%s' AND `status` = 1", $tableName, $product->getSku());
         } else {
             $tableName = $this->resourceConnection->getTableName(self::LEGACY_STOCK_TABLE);
@@ -112,6 +119,6 @@ class Quantity
             );
         }
 
-        return $connection->fetchOne($query);
+        return $connection->fetchOne($query) ?: 0;
     }
 }

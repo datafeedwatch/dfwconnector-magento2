@@ -19,15 +19,15 @@ class Refresh extends BaseButton
     /**
      * @return string
      */
-    public function getButtonLabel()
+    public function getButtonLabel(): string
     {
-        return __('Refresh');
+        return (string)__('Refresh');
     }
 
     /**
      * @return string
      */
-    public function getButtonOnClick()
+    public function getButtonOnClick(): string
     {
         return sprintf("setLocation('%s')", $this->getUrl('dfw/system/refresh'));
     }

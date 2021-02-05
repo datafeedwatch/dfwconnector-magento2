@@ -19,10 +19,10 @@ interface ButtonInterface
     /**
      * @return string
      */
-    public function getButtonLabel();
+    public function getButtonLabel(): string;
 
     /**
      * @return string
      */
-    public function getButtonOnClick();
+    public function getButtonOnClick(): string;
 }

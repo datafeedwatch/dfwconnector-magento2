@@ -13,6 +13,7 @@
     <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
         <attribute code="parent_ids" type="mixed[]" />
         <attribute code="quantity" type="float" />
+        <attribute code="qty_and_stock" type="DataFeedWatch\Connector\Api\Data\QtyAndStockInterface" />
         <attribute code="product_url" type="string" />
         <attribute code="additional_urls" type="mixed[]" />
         <attribute code="product_images" type="mixed[]" />

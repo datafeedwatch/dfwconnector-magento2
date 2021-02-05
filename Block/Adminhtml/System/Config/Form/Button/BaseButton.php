@@ -15,6 +15,7 @@ use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Backend\Block\Template\Context;
 use DataFeedWatch\Connector\Helper\Data as DataHelper;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class BaseButton
@@ -45,9 +46,9 @@ abstract class BaseButton extends Field implements ButtonInterface
     /**
      * @param AbstractElement $element
      * @return string
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
-    public function _getElementHtml(AbstractElement $element)
+    public function _getElementHtml(AbstractElement $element): string
     {
         return !$element instanceof AbstractElement ? parent::_getElementHtml($element): $this->getLayout()
                     ->createBlock(Button::class)
