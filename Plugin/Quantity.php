@@ -109,16 +109,21 @@ class Quantity
         $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
 
         if ($this->moduleManager->isEnabled('Magento_Inventory')) {
-            $query = sprintf("SELECT SUM(`quantity`) FROM `%s` WHERE `sku` = '%s' AND `status` = 1", $tableName, $product->getSku());
+            $query = sprintf("SELECT SUM(`quantity`) FROM `%s` WHERE `sku` = :sku AND `status` = 1", $tableName);
+            $bind = ['sku' => $product->getSku()];
         } else {
             $tableName = $this->resourceConnection->getTableName(self::LEGACY_STOCK_TABLE);
 
             $query = sprintf(
-                "SELECT SUM(`qty`) FROM `%s` WHERE `product_id` = '%s' AND `is_in_stock` = 1%s",
-                $tableName, $product->getId(), $product->getWebsiteId() ? sprintf(" AND `website_id` = %s", $product->getWebsiteId()) : ''
+                "SELECT SUM(`qty`) FROM `%s` WHERE `product_id` = :product_id AND `is_in_stock` = 1%s",
+                $tableName, $product->getWebsiteId() ? " AND `website_id` = :website_id" : ''
             );
+            $bind = ['product_id' => $product->getId()];
+            if ($product->getWebsiteId()) {
+                $bind['website_id'] = $product->getWebsiteId();
+            }
         }
 
-        return $connection->fetchOne($query) ?: 0;
+        return $connection->fetchOne($query, $bind) ?: 0;
     }
 }

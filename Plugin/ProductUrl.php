@@ -100,7 +100,7 @@ class ProductUrl
     }
 
     /**
-     * @param Product $productSku
+     * @param Product $product
      * @return string
      */
     protected function getUrl(Product $product)
@@ -121,7 +121,7 @@ class ProductUrl
     }
 
     /**
-     * @param Product $productSku
+     * @param Product $product
      * @return array
      */
     protected function getAdditionalUrls(Product $product)

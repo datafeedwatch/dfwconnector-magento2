@@ -97,7 +97,7 @@ class ProductImages
     }
 
     /**
-     * @param Product $productSku
+     * @param Product $product
      * @return array
      */
     protected function getProductImages(Product $product)

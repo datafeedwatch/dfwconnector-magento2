@@ -146,18 +146,22 @@ class QtyAndStock extends Quantity
         $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
 
         if ($this->moduleManager->isEnabled('Magento_Inventory')) {
-            $query = sprintf("SELECT SUM(`status`) FROM `%s` WHERE `sku` = '%s'", $tableName, $product->getSku());
+            $query = sprintf("SELECT SUM(`status`) FROM `%s` WHERE `sku` = :sku", $tableName);
+            $bind = ['sku' => $product->getSku()];
         } else {
             $tableName = $this->resourceConnection->getTableName(self::LEGACY_STOCK_TABLE);
 
             $query = sprintf(
-                "SELECT SUM(`is_in_stock`) FROM `%s` WHERE `product_id` = '%s'%s",
+                "SELECT SUM(`is_in_stock`) FROM `%s` WHERE `product_id` = :product_id%s",
                 $tableName,
-                $product->getId(),
-                $product->getWebsiteId() ? sprintf(" AND `website_id` = %s", $product->getWebsiteId()) : ''
+                $product->getWebsiteId() ? " AND `website_id` = :website_id" : ''
             );
+            $bind = ['product_id' => $product->getId()];
+            if ($product->getWebsiteId()) {
+                $bind['website_id'] = $product->getWebsiteId();
+            }
         }
 
-        return $connection->fetchOne($query) > 0;
+        return $connection->fetchOne($query, $bind) > 0;
     }
 }
