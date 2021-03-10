@@ -98,7 +98,7 @@ class QtyAndStock extends Quantity
                 $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
                 $qtyAndStock = $this->qtyAndStockFactory->create();
                 $qtyAndStockData = [
-                    'qty' => $this->getQuantity($product),
+                    'qty' => $this->getExtensionData($product),
                     'manage_stock' => (bool)$this->getManageStock($product),
                     'is_in_stock' => (bool)$this->getStockStatus($product),
                 ];

@@ -16,7 +16,9 @@
         <plugin name="DataFeedWatch_Connector::quantity_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\Quantity"/>
         <plugin name="DataFeedWatch_Connector::qty_and_stock_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\QtyAndStock"/>
         <plugin name="DataFeedWatch_Connector::product_url_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\ProductUrl"/>
+        <plugin name="DataFeedWatch_Connector::additional_urls_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\AdditionalUrls"/>
         <plugin name="DataFeedWatch_Connector::product_images_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\ProductImages"/>
+        <plugin name="DataFeedWatch_Connector::catalog_price_as_extension_attribute" type="DataFeedWatch\Connector\Plugin\CatalogPrice"/>
     </type>
     <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
         <plugin name="DataFeedWatch_Connector::store_id_filter_fix" type="DataFeedWatch\Connector\Plugin\StoreIdFilter"/>

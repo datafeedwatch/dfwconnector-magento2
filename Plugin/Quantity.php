@@ -18,20 +18,10 @@ use Magento\Framework\Api\SearchResults;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Module\Manager;
 
-class Quantity
+class Quantity extends ExtensionAttributeAbstract
 {
     const STOCK_TABLE = "inventory_source_item";
     const LEGACY_STOCK_TABLE = "cataloginventory_stock_item";
-
-    /**
-     * @var ProductExtensionFactory
-     */
-    protected $extensionFactory;
-
-    /**
-     * @var ResourceConnection
-     */
-    protected $resourceConnection;
     /**
      * @var Manager
      */
@@ -48,62 +38,15 @@ class Quantity
         ResourceConnection $resourceConnection,
         Manager $moduleManager
     ) {
-        $this->extensionFactory = $extensionFactory;
-        $this->resourceConnection = $resourceConnection;
+        parent::__construct($extensionFactory, $resourceConnection);
         $this->moduleManager = $moduleManager;
-    }
-
-    /**
-     * @param ProductRepository $subject
-     * @param Product $product
-     * @return Product
-     */
-    public function afterGet(
-        ProductRepository $subject,
-        Product $product
-    ) {
-        return $this->setExtensionAttribute($product);
-    }
-
-    /**
-     * @param ProductRepository $subject
-     * @param SearchResults $searchResults
-     * @return SearchResults
-     */
-    public function afterGetList(
-        ProductRepository $subject,
-        SearchResults $searchResults
-    ) {
-        $products = $searchResults->getItems();
-
-        /** @var Product $product */
-        foreach ($products as $product) {
-            $this->setExtensionAttribute($product);
-        }
-        return $searchResults;
-    }
-
-    /**
-     * @param Product $product
-     * @return Product
-     */
-    protected function setExtensionAttribute(Product $product)
-    {
-        $extensionAttributes = $product->getExtensionAttributes();
-        $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
-        $extensionAttributes->setQuantity(
-            $this->getQuantity($product)
-        );
-        $product->setExtensionAttributes($extensionAttributes);
-
-        return $product;
     }
 
     /**
      * @param Product $product
      * @return float
      */
-    protected function getQuantity(Product $product)
+    protected function getExtensionData(Product $product)
     {
         $connection = $this->resourceConnection->getConnection();
         $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
@@ -125,5 +68,10 @@ class Quantity
         }
 
         return $connection->fetchOne($query, $bind) ?: 0;
+    }
+
+    protected function getDataVar(): string
+    {
+        return 'Quantity';
     }
 }

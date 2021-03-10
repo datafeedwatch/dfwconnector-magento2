@@ -21,85 +21,27 @@ use Magento\Framework\App\ResourceConnection;
  * Class ParentIds
  * @package DataFeedWatch\Connector\Plugin
  */
-class ParentIds
+class ParentIds extends ExtensionAttributeAbstract
 {
     const RELATIONS_TABLE = "catalog_product_relation";
 
     /**
-     * @var ProductExtensionFactory
-     */
-    protected $extensionFactory;
-
-    /**
-     * @var ResourceConnection
-     */
-    protected $resourceConnection;
-
-    /**
-     * ParentIds constructor.
-     * @param ProductExtensionFactory $extensionFactory
-     * @param ResourceConnection $resourceConnection
-     */
-    public function __construct(
-        ProductExtensionFactory $extensionFactory,
-        ResourceConnection $resourceConnection
-    ) {
-        $this->extensionFactory = $extensionFactory;
-        $this->resourceConnection = $resourceConnection;
-    }
-
-    /**
-     * @param ProductRepository $subject
      * @param Product $product
      * @return Product
      */
-    public function afterGet(
-        ProductRepository $subject,
-        Product $product
-    ) {
-        return $this->setExtensionAttribute($product);
-    }
-
-    /**
-     * @param ProductRepository $subject
-     * @param SearchResults $searchResults
-     * @return SearchResults
-     */
-    public function afterGetList(
-        ProductRepository $subject,
-        SearchResults $searchResults
-    ) {
-        $products = $searchResults->getItems();
-
-        /** @var Product $product */
-        foreach ($products as $product) {
-            $this->setExtensionAttribute($product);
-        }
-        return $searchResults;
-    }
-
-    /**
-     * @param Product $product
-     * @return Product
-     */
-    protected function setExtensionAttribute(Product $product)
+    protected function setExtensionAttribute(Product $product): Product
     {
-        if($product->getTypeId() == Type::TYPE_SIMPLE) {
-            $extensionAttributes = $product->getExtensionAttributes();
-            $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
-            $extensionAttributes->setParentIds(
-                $this->getParentIds($product->getId())
-            );
-            $product->setExtensionAttributes($extensionAttributes);
+        if ($product->getTypeId() == Type::TYPE_SIMPLE) {
+            return parent::setExtensionAttribute($product);
         }
         return $product;
     }
 
     /**
-     * @param $productId
-     * @return array
+     * @param Product $product
+     * @return array|mixed
      */
-    protected function getParentIds($productId)
+    protected function getExtensionData(Product $product)
     {
         $connection = $this->resourceConnection->getConnection();
         $tableName = $this->resourceConnection->getTableName(self::RELATIONS_TABLE);
@@ -108,8 +50,16 @@ class ParentIds
             ->getConnection()
             ->select()
             ->from($tableName, 'parent_id')
-            ->where(sprintf('child_id = %s', $productId));
+            ->where(sprintf('child_id = %s', $product->getId()));
 
         return $connection->fetchCol($query);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDataVar(): string
+    {
+        return 'ParentIds';
     }
 }

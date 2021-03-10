@@ -17,5 +17,6 @@
         <attribute code="product_url" type="string" />
         <attribute code="additional_urls" type="mixed[]" />
         <attribute code="product_images" type="mixed[]" />
+        <attribute code="catalog_price" type="float" />
     </extension_attributes>
 </config>
