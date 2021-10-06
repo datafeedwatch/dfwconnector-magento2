@@ -7,16 +7,17 @@
  * @category    DataFeedWatch
  * @package     DataFeedWatch_Connector
  * @author      Maciej Buchert <maciej@qsolutionsstudio.com>
+ * @author      Wojciech M. Wnuk <wojtek@qsolutionsstudio.com>
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
     <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
-        <attribute code="parent_ids" type="mixed[]" />
+        <attribute code="parent_ids" type="string[]" />
         <attribute code="quantity" type="float" />
         <attribute code="qty_and_stock" type="DataFeedWatch\Connector\Api\Data\QtyAndStockInterface" />
         <attribute code="product_url" type="string" />
-        <attribute code="additional_urls" type="mixed[]" />
-        <attribute code="product_images" type="mixed[]" />
+        <attribute code="additional_urls" type="string[]" />
+        <attribute code="product_images" type="string[]" />
         <attribute code="catalog_price" type="float" />
     </extension_attributes>
 </config>
