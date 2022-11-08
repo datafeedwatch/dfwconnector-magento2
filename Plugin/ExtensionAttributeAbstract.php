@@ -32,7 +32,6 @@ abstract class ExtensionAttributeAbstract
     protected $resourceConnection;
 
     /**
-     * ParentIds constructor.
      * @param ProductExtensionFactory $extensionFactory
      * @param ResourceConnection $resourceConnection
      */
@@ -48,6 +47,7 @@ abstract class ExtensionAttributeAbstract
      * @param ProductRepository $subject
      * @param Product $product
      * @return Product
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGet(
         ProductRepository $subject,
@@ -60,6 +60,7 @@ abstract class ExtensionAttributeAbstract
      * @param ProductRepository $subject
      * @param SearchResults $searchResults
      * @return SearchResults
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetList(
         ProductRepository $subject,
@@ -74,6 +75,27 @@ abstract class ExtensionAttributeAbstract
         return $searchResults;
     }
 
+    /**
+     * Get data for extension attribute(s)
+     *
+     * @param Product $product
+     * @return mixed
+     */
+    abstract protected function getExtensionData(Product $product);
+
+    /**
+     * Get extension attribute data variable name
+     *
+     * @return string
+     */
+    abstract protected function getDataVar(): string;
+
+    /**
+     * Set extension attribute data to the product
+     *
+     * @param Product $product
+     * @return Product
+     */
     protected function setExtensionAttribute(Product $product): Product
     {
         $extensionAttributes = $product->getExtensionAttributes();
@@ -83,15 +105,4 @@ abstract class ExtensionAttributeAbstract
 
         return $product;
     }
-
-    /**
-     * @param Product $product
-     * @return mixed
-     */
-    abstract protected function getExtensionData(Product $product);
-
-    /**
-     * @return string
-     */
-    abstract protected function getDataVar(): string;
 }

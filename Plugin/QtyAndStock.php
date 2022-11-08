@@ -24,11 +24,8 @@ use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Module\Manager;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
+use Magento\Store\Model\StoreManagerInterface;
 
-/**
- * Class QtyAndStock
- * @package DataFeedWatch\Connector\Plugin
- */
 class QtyAndStock extends Quantity
 {
     /**
@@ -51,12 +48,17 @@ class QtyAndStock extends Quantity
      * @var QtyAndStockFactory
      */
     protected $qtyAndStockFactory;
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
 
     /**
      * QtyAndStock constructor.
      * @param ProductExtensionFactory $extensionFactory
      * @param ResourceConnection $resourceConnection
      * @param Manager $moduleManager
+     * @param StoreManagerInterface $storeManager
      * @param ScopeConfigInterface $scopeConfig
      * @param State $state
      * @param RequestInterface $request
@@ -67,13 +69,14 @@ class QtyAndStock extends Quantity
         ProductExtensionFactory $extensionFactory,
         ResourceConnection $resourceConnection,
         Manager $moduleManager,
+        StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
         State $state,
         RequestInterface $request,
         QtyAndStockFactory $qtyAndStockFactory,
         DataObjectHelper $dataObjectHelper
     ) {
-        parent::__construct($extensionFactory, $resourceConnection, $moduleManager);
+        parent::__construct($extensionFactory, $resourceConnection, $moduleManager, $storeManager);
         $this->scopeConfig = $scopeConfig;
         $this->state = $state;
         $this->request = $request;
@@ -82,18 +85,14 @@ class QtyAndStock extends Quantity
     }
 
     /**
-     * @param Product $product
-     * @return Product
+     * @inheritdoc
      */
     protected function setExtensionAttribute(Product $product): Product
     {
         try {
-            if (
-                $this->state->getAreaCode() == Area::AREA_WEBAPI_REST
+            if ($this->state->getAreaCode() == Area::AREA_WEBAPI_REST
                 && $this->request->getParam('add_stock', false)
-                && !in_array($product->getTypeId(), [Configurable::TYPE_CODE, Grouped::TYPE_CODE, Bundle::TYPE_CODE])
-            ) {
-
+                && !in_array($product->getTypeId(), [Configurable::TYPE_CODE, Grouped::TYPE_CODE, Bundle::TYPE_CODE])) {
                 $extensionAttributes = $product->getExtensionAttributes();
                 $extensionAttributes = $extensionAttributes ?? $this->extensionFactory->create();
                 $qtyAndStock = $this->qtyAndStockFactory->create();
@@ -113,6 +112,8 @@ class QtyAndStock extends Quantity
     }
 
     /**
+     * Get manage_stock value for product
+     *
      * @param Product $product
      * @return bool
      */
@@ -124,7 +125,9 @@ class QtyAndStock extends Quantity
 
         $query = sprintf(
             "SELECT `manage_stock`,`use_config_manage_stock` FROM `%s` WHERE `product_id` = '%s'%s",
-            $tableName, $product->getId(), $product->getWebsiteId() ? sprintf(" AND `website_id` = %s", $product->getWebsiteId()) : ''
+            $tableName,
+            $product->getId(),
+            $product->getWebsiteId() ? sprintf(" AND `website_id` = %s", $product->getWebsiteId()) : ''
         );
 
         $manageStock = $connection->fetchRow($query);
@@ -137,6 +140,8 @@ class QtyAndStock extends Quantity
     }
 
     /**
+     * Get stock status for product
+     *
      * @param Product $product
      * @return bool
      */
@@ -146,8 +151,7 @@ class QtyAndStock extends Quantity
         $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
 
         if ($this->moduleManager->isEnabled('Magento_Inventory')) {
-            $query = sprintf("SELECT SUM(`status`) FROM `%s` WHERE `sku` = :sku", $tableName);
-            $bind = ['sku' => $product->getSku()];
+            $status = $product->isSalable();
         } else {
             $tableName = $this->resourceConnection->getTableName(self::LEGACY_STOCK_TABLE);
 
@@ -160,8 +164,10 @@ class QtyAndStock extends Quantity
             if ($product->getWebsiteId()) {
                 $bind['website_id'] = $product->getWebsiteId();
             }
+
+            $status = $connection->fetchOne($query, $bind);
         }
 
-        return $connection->fetchOne($query, $bind) > 0;
+        return $status > 0;
     }
 }
