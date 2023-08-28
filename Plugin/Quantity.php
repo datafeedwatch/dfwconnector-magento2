@@ -26,6 +26,10 @@ class Quantity extends ExtensionAttributeAbstract
      * @var Manager
      */
     protected $moduleManager;
+    /**
+     * @var StoreManagerInterface
+     */
+     protected StoreManagerInterface $storeManager;
 
     /**
      * ParentIds constructor.
