@@ -48,10 +48,6 @@ class QtyAndStock extends Quantity
      * @var QtyAndStockFactory
      */
     protected $qtyAndStockFactory;
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
 
     /**
      * QtyAndStock constructor.
