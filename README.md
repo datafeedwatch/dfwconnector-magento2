@@ -1,7 +1,7 @@
 # DataFeedWatch Connector for Magento 2
 
 DataFeedWatch Connector for Magento 2 module is required to allow DataFeedWatch to fetch data from your store.
-The module works with **Magento 2 and later** versions, and **Magento Enterprise**.
+The module works with **Magento Open Source** and **Adobe Commerce**.
 
 ### Module installation
 The installation of the Magento module can be performed by using Composer
