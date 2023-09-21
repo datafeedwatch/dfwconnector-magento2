@@ -4,27 +4,21 @@ DataFeedWatch Connector for Magento 2 module is required to allow DataFeedWatch 
 The module works with **Magento Open Source** and **Adobe Commerce**.
 
 ### Module installation
-The installation of the Magento module can be performed by using Composer
-
-1. You fill first need to SSH into the machine that is running your Magento shop. This will look something like this
-    ```
-    ssh username@123.456.79.90
-    ```
-    where `123.456.79.90` is an IP of your server
-2. Go to Magento home directory.
-3. Ensure that Composer is installed, by checking which version you have:
+1. First, log into the machine running your Magento shop via SSH.
+2. Then, go to the Magento home directory.
+3. Ensure the Composer is installed. To verify it, check which version you have:
     ```
    composer --version
     ```
-4. Inside the Magento Home directory fetch DataFeedWatch Connector for Magento 2
+4. Fetch DataFeedWatch Connector for Magento 2:
     ```
     composer require datafeedwatch/dfwconnector-magento2
     ```
-5. Once the installation process has completed, enable the module:
+5. Once the installation process has been completed, enable the module:
     ```
     bin/magento module:enable DataFeedWatch_Connector
     ```
-6. Finally clean up tasks:
+6. Finally, the clean up tasks:
     ```
     bin/magento setup:upgrade
     bin/magento cache:clean
@@ -33,6 +27,6 @@ The installation of the Magento module can be performed by using Composer
 
 ### Adding Magento 2 shop to DataFeedWatch
 
-After plugin installation is finished follow our guide to add *Magento 2* shop to your account in DataFeedWatch:
+Once you’ve installed the Magento 2 plugin, refer to our guide on how to add Magento 2 shop to your account in DataFeedWatch:
 https://help.datafeedwatch.com/article/783v6ihcks-adding-magento-2
 
