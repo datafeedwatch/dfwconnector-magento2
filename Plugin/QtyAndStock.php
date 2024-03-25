@@ -14,6 +14,7 @@ use DataFeedWatch\Connector\Model\QtyAndStockFactory;
 use Magento\Bundle\Model\Product\Type as Bundle;
 use Magento\Catalog\Api\Data\ProductExtensionFactory;
 use Magento\Catalog\Model\Product;
+use Magento\CatalogInventory\Helper\Minsaleqty;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Area;
@@ -45,6 +46,10 @@ class QtyAndStock extends Quantity
      */
     protected $dataObjectHelper;
     /**
+     * @var Minsaleqty
+     */
+    protected $minSaleQty;
+    /**
      * @var QtyAndStockFactory
      */
     protected $qtyAndStockFactory;
@@ -60,6 +65,7 @@ class QtyAndStock extends Quantity
      * @param RequestInterface $request
      * @param QtyAndStockFactory $qtyAndStockFactory
      * @param DataObjectHelper $dataObjectHelper
+     * @param Minsaleqty $minSaleQty
      */
     public function __construct(
         ProductExtensionFactory $extensionFactory,
@@ -70,7 +76,8 @@ class QtyAndStock extends Quantity
         State $state,
         RequestInterface $request,
         QtyAndStockFactory $qtyAndStockFactory,
-        DataObjectHelper $dataObjectHelper
+        DataObjectHelper $dataObjectHelper,
+        Minsaleqty $minSaleQty
     ) {
         parent::__construct($extensionFactory, $resourceConnection, $moduleManager, $storeManager);
         $this->scopeConfig = $scopeConfig;
@@ -78,6 +85,7 @@ class QtyAndStock extends Quantity
         $this->request = $request;
         $this->dataObjectHelper = $dataObjectHelper;
         $this->qtyAndStockFactory = $qtyAndStockFactory;
+        $this->minSaleQty = $minSaleQty;
     }
 
     /**
@@ -165,5 +173,35 @@ class QtyAndStock extends Quantity
         }
 
         return $status > 0;
+    }
+
+    /**
+     * Get extension data for product
+     *
+     * @param Product $product
+     * @return float|null
+     */
+    protected function getMinSaleQty(Product $product): ?float
+    {
+        $connection = $this->resourceConnection->getConnection();
+        $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
+
+        $query = sprintf(
+            "SELECT `min_sale_qty`, `use_config_min_sale_qty` FROM `%s` WHERE `product_id` = :product_id%s",
+            $tableName,
+            $product->getWebsiteId() ? " AND `website_id` = :website_id" : ''
+        );
+        $bind = ['product_id' => $product->getId()];
+        if ($product->getWebsiteId()) {
+            $bind['website_id'] = $product->getWebsiteId();
+        }
+
+        $minSaleQty = $connection->fetchRow($query, $bind);
+
+        if (!$minSaleQty['use_config_min_qty']) {
+            return $minSaleQty['min_sale_qty'];
+        }
+
+        return $this->minSaleQty->getConfigValue(0);
     }
 }
