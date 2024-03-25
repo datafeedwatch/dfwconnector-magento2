@@ -104,6 +104,7 @@ class QtyAndStock extends Quantity
                     'qty' => $this->getExtensionData($product),
                     'manage_stock' => (bool)$this->getManageStock($product),
                     'is_in_stock' => (bool)$this->getStockStatus($product),
+                    'min_sale_qty' => $this->getMinSaleQty($product) ?? 1,
                 ];
                 $this->dataObjectHelper->populateWithArray($qtyAndStock, $qtyAndStockData, QtyAndStockInterface::class);
                 $extensionAttributes->setQtyAndStock($qtyAndStock);
