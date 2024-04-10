@@ -185,7 +185,7 @@ class QtyAndStock extends Quantity
     protected function getMinSaleQty(Product $product): ?float
     {
         $connection = $this->resourceConnection->getConnection();
-        $tableName = $this->resourceConnection->getTableName(self::STOCK_TABLE);
+        $tableName = $this->resourceConnection->getTableName(self::LEGACY_STOCK_TABLE);
 
         $query = sprintf(
             "SELECT `min_sale_qty`, `use_config_min_sale_qty` FROM `%s` WHERE `product_id` = :product_id%s",
@@ -199,7 +199,7 @@ class QtyAndStock extends Quantity
 
         $minSaleQty = $connection->fetchRow($query, $bind);
 
-        if (!$minSaleQty['use_config_min_qty']) {
+        if (!$minSaleQty['use_config_min_sale_qty']) {
             return $minSaleQty['min_sale_qty'];
         }
 
