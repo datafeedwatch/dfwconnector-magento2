@@ -33,6 +33,11 @@ interface QtyAndStockInterface extends ExtensibleDataInterface
     public function getIsInStock();
 
     /**
+     * @return float|null
+     */
+    public function getMinSaleQty();
+
+    /**
      * @param float|null $qty
      * @return $this
      */
@@ -49,6 +54,12 @@ interface QtyAndStockInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setIsInStock($isInStock);
+
+    /**
+     * @param float|null $minSaleQty
+     * @return $this
+     */
+    public function setMinSaleQty($minSaleQty);
 
     /**
      * @return \DataFeedWatch\Connector\Api\Data\QtyAndStockExtensionInterface|null

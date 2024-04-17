@@ -21,6 +21,11 @@ class QtyAndStock extends AbstractExtensibleObject implements QtyAndStockInterfa
     const KEY_QTY = 'qty';
     const KEY_MANAGE_STOCK = 'manage_stock';
     const KEY_IS_IN_STOCK = 'is_in_stock';
+    const MIN_SALE_QTY = 'min_sale_qty';
+
+    public function getMinSaleQty() {
+        return $this->_get(self::MIN_SALE_QTY);
+    }
 
     public function getQty()
     {
@@ -52,6 +57,16 @@ class QtyAndStock extends AbstractExtensibleObject implements QtyAndStockInterfa
     public function setExtensionAttributes(\DataFeedWatch\Connector\Api\Data\QtyAndStockExtensionInterface $extensionAttributes)
     {
         return $this->_setExtensionAttributes($extensionAttributes);
+    }
+
+    /**
+     * @param float|null $minSaleQty
+     * @return $this
+     */
+    public function setMinSaleQty($minSaleQty)
+    {
+        $this->setData(self::MIN_SALE_QTY, $minSaleQty);
+        return $this;
     }
 
     /**
