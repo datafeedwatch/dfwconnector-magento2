@@ -25,6 +25,20 @@ The module works with **Magento Open Source** and **Adobe Commerce**.
     bin/magento setup:di:compile
     ```
 
+### Module update
+1. First, log into the machine running your Magento shop via SSH.
+2. Then, go to the Magento home directory.
+3. Update DataFeedWatch Connector for Magento 2:
+    ```
+    composer update datafeedwatch/dfwconnector-magento2
+    ```
+4. Once the updating process has been completed, run the clean up tasks:
+    ```
+    bin/magento setup:upgrade
+    bin/magento cache:clean
+    bin/magento setup:di:compile
+    ```
+
 ### Adding Magento 2 shop to DataFeedWatch
 
 Once you’ve installed the Magento 2 plugin, refer to our guide on how to add Magento 2 shop to your account in DataFeedWatch:
