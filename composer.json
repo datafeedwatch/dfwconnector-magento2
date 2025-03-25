@@ -2,7 +2,7 @@
     "name": "datafeedwatch/dfwconnector-magento2",
     "description": "DataFeedWatch Connector for Magento 2",
     "require": {
-        "php": "7.*||~8.1.0||~8.2.0"
+        "php": "7.*||~8.1.0||~8.2.0||~8.3.0"
     },
     "type": "magento2-module",
     "version": "3.3.3",
