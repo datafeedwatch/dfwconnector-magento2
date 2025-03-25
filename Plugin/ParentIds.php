@@ -77,7 +77,7 @@ class ParentIds extends ExtensionAttributeAbstract
             return $connection->fetchCol($query);
         } else {
             $query = $connection->select()
-                ->from(['r' => $tableName], 'parent_id')
+                ->from(['r' => $tableName], '')
                 ->join(
                     ['e' => $entityTable],
                     'r.parent_id = e.row_id',
