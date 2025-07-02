@@ -63,7 +63,7 @@ class ProductUrl extends ExtensionAttributeAbstract
         $tableName = $this->resourceConnection->getTableName(self::URL_REWRITE_TABLE);
 
         $query = sprintf(
-            "SELECT `request_path` FROM `%s` WHERE `entity_id` = '%s' AND `store_id` = %s AND `entity_type` = 'product' AND `metadata` IS NULL",
+            "SELECT `request_path` FROM `%s` WHERE `entity_id` = '%s' AND `store_id` = %s AND `entity_type` = 'product' AND `metadata` IS NULL AND `redirect_type` = 0",
             $tableName,
             $product->getId(),
             $product->getStoreId()
