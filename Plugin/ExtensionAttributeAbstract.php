@@ -11,7 +11,7 @@ namespace DataFeedWatch\Connector\Plugin;
 
 use Magento\Catalog\Api\Data\ProductExtensionFactory;
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Api\SearchResults;
 use Magento\Framework\App\ResourceConnection;
 
@@ -44,26 +44,26 @@ abstract class ExtensionAttributeAbstract
     }
 
     /**
-     * @param ProductRepository $subject
+     * @param ProductRepositoryInterface $subject
      * @param Product $product
      * @return Product
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGet(
-        ProductRepository $subject,
+        ProductRepositoryInterface $subject,
         Product $product
     ): Product {
         return $this->setExtensionAttribute($product);
     }
 
     /**
-     * @param ProductRepository $subject
+     * @param ProductRepositoryInterface $subject
      * @param SearchResults $searchResults
      * @return SearchResults
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetList(
-        ProductRepository $subject,
+        ProductRepositoryInterface $subject,
         SearchResults $searchResults
     ): SearchResults {
         $products = $searchResults->getItems();
