@@ -137,7 +137,7 @@ class QtyAndStock extends Quantity
 
         $manageStock = $connection->fetchRow($query);
 
-        if (!$manageStock['use_config_manage_stock']) {
+        if ($manageStock && !$manageStock['use_config_manage_stock']) {
             return $manageStock['manage_stock'];
         }
 
@@ -199,7 +199,7 @@ class QtyAndStock extends Quantity
 
         $minSaleQty = $connection->fetchRow($query, $bind);
 
-        if (!$minSaleQty['use_config_min_sale_qty']) {
+        if ($minSaleQty && !$minSaleQty['use_config_min_sale_qty']) {
             return $minSaleQty['min_sale_qty'];
         }
 
